@@ -1,15 +1,11 @@
 {
   "name": "doggy-weather-app",
   "version": "1.0.0",
-  "description": "A Pen created at CodePen.io. You can find this one at http://codepen.io/stella-yc/pen/vyBWKL.",
+  "description": "A weather app that shows different images of dogs depending on the weather.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "http-server index.html"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "http-server": "^0.10.0"
-  }
+  "license": "ISC"
 }

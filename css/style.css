@@ -1,4 +1,4 @@
-/* blue: #8099FF 
+/* blue: #8099FF
 	yellow: #FFE680
 */
 * {
@@ -20,16 +20,17 @@ a {
 	padding-bottom: 1em;
 }
 .temp {
-	font-size: 2rem;
-	margin-top: 1.5rem;
+	font-size: 2em;
+	margin-top: 0.7em;
 }
 .main {
-	font-size: 1.8rem;
-	margin-top: .8rem;
+	font-size: 1.8em;
+	margin-top: .5em;
 }
 .city {
-	font-size: 1.2rem;
-	margin-top: .4rem;
+	font-size: 1.4em;
+	color: #8099FF;
+	margin: 1em 0;
 }
 .container-main {
 	max-width: 80%;
