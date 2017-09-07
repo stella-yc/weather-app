@@ -101,8 +101,10 @@ const weatherApp = {
     $('.city').html(this.info.city);
     this.info.degreeUnit = 'Fahrenheit';
     this.tempButton();
-    $('#loading-text').hide();   //Hide initial loading text
-    $('.weather').fadeIn('slow');    //Show weather information
+    $('.loading-text').hide();   //Hide initial loading text
+    $('.weather')
+      .css({opacity: 0.0, visibility: 'visible'})
+      .animate({opacity: 1.0});
   },
 
   tempButton: function () {

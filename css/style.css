@@ -30,9 +30,26 @@ a {
 .title {
   font-size: 2em;
 }
+.loading-text {
+  color: #8099FF;
+  padding-top: 3em;
+  animation-duration: 2s;
+  animation-name: fade-in-out;
+  animation-iteration-count: 5;
+}
+@keyframes fade-in-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.3;
+  }
+}
 .weather {
   width: 100%;
-  display: none;
+  visibility: hidden;
+  /* display: none; */
 }
 .city {
   font-size: 1.5em;
