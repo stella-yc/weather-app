@@ -5,8 +5,7 @@ const weatherApp = {
     degreeUnit: null,
     weather: null,
     city: null,
-    timeOfDay: null,
-    timestamp: null
+    timeOfDay: null
   },
 
   initialize: function () {
@@ -69,6 +68,7 @@ const weatherApp = {
   },
 
   weatherDog: function () {
+    // this.setDog(this.dogType('default'));
     this.setDog(this.dogType(this.info.weather));
   },
 
