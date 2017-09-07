@@ -68,7 +68,6 @@ const weatherApp = {
   },
 
   weatherDog: function () {
-    // this.setDog(this.dogType('default'));
     this.setDog(this.dogType(this.info.weather));
   },
 
