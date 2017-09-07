@@ -52,7 +52,8 @@ const weatherApp = {
       }, (err) => {
         console.log('geolocation not working');
         reject(err);
-      });
+      },
+      {timeout: 30000, enableHighAccuracy: true, maximumAge: 75000});
     });
   },
 
