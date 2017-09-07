@@ -37,9 +37,11 @@ const weatherApp = {
   },
 
   getLocation: function () {
+
     const location = { latitude: 40.4477468, longitude: -79.9483855 };
     return location;
   },
+  // const geolocationReq = 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCq_RyPHWu6hZMFpMeYF4PtrVuDchYDhbg';
 
   getPosition: function () {
     return new Promise((resolve, reject) => {
@@ -62,16 +64,37 @@ const weatherApp = {
     return `https://api.wunderground.com/api/${apiKey}/conditions/astronomy/q/${latitude},${longitude}.json`;
   },
 
+  // using $.getJSON callback
+  // getWeather: function (address) {
+  //   $.getJSON(address, (json) => {
+  //       this.info.Fahrenheit = json.current_observation.temp_f;
+  //       this.info.Celsius = json.current_observation.temp_c;
+  //       this.info.weather = json.current_observation.weather.toLowerCase();
+  //       this.info.city = json.current_observation.display_location.city;
+  //       this.getTimeOfDay(json);
+  //       this.weatherIcon();
+  //       this.displayWeather();
+  //   });
+  // },
+
+  // using fetch promise
   getWeather: function (address) {
-    $.getJSON(address, (json) => {
-        this.info.Fahrenheit = json.current_observation.temp_f;
-        this.info.Celsius = json.current_observation.temp_c;
-        this.info.weather = json.current_observation.weather.toLowerCase();
-        this.info.city = json.current_observation.display_location.city;
-        this.getTimeOfDay(json);
+    fetch(address, {method: 'get'})
+      .then(response => {
+        return response.json();
+      })
+      .then((data) => {
+        this.info.Fahrenheit = data.current_observation.temp_f;
+        this.info.Celsius = data.current_observation.temp_c;
+        this.info.weather = data.current_observation.weather.toLowerCase();
+        this.info.city = data.current_observation.display_location.city;
+        this.getTimeOfDay(data);
         this.weatherIcon();
         this.displayWeather();
-    });
+      })
+      .catch(err => {
+        console.log('fetch error', err);
+      });
   },
 
   getTimeOfDay: function (data) {
