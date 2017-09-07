@@ -1,7 +1,5 @@
 const weatherApp = {
   info: {
-    latitude: null,
-    longitude: null,
     Fahrenheit: null,
     Celsius: null,
     degreeUnit: null,
@@ -11,37 +9,53 @@ const weatherApp = {
     timestamp: null
   },
 
-  // getLocation is synchronous, no request for geolocation
-  // initialize: function () {
-  //   let {latitude, longitude} = this.getLocation();
-  //   this.info.latitude = latitude;
-  //   this.info.longitude = longitude;
-  //   const address = this.generateApiAddress(apiKey, latitude, longitude);
-  //   this.getWeather(address);
-  // },
-
   initialize: function () {
     if (!navigator.geolocation) {
       let msg = "Sorry, looks like your browser doesn't support geolocation";
       $('.coordinates').html(msg);
     } else {
-      this.getPosition()
-        .then(({latitude, longitude}) => {
-          this.info.latitude = latitude;
-          this.info.longitude = longitude;
-          const address = this.generateApiAddress(latitude, longitude);
-          this.getWeather(address);
+      this.getGeolocation()
+        .then((coords) => {
+          const address = this.generateApiAddress(coords);
+          return this.getWeather(address);
+        })
+        .then(data => {
+          this.info.Fahrenheit = data.current_observation.temp_f;
+          this.info.Celsius = data.current_observation.temp_c;
+          this.info.weather = data.current_observation.weather.toLowerCase();
+          this.info.city = data.current_observation.display_location.city;
+          this.getTimeOfDay(data);
+          this.weatherIcon();
+          this.displayWeather();
         })
         .catch(console.error);
     }
   },
 
-  getLocation: function () {
+  // getLocation: function () {
+  //   const location = { latitude: 40.4477468, longitude: -79.9483855 };
+  //   return location;
+  // },
 
-    const location = { latitude: 40.4477468, longitude: -79.9483855 };
-    return location;
+  getGeolocation: function () {
+  const googleApi = 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCq_RyPHWu6hZMFpMeYF4PtrVuDchYDhbg';
+    return fetch(googleApi, {method: 'get'})
+      .then(data => {
+        console.log(data);
+        return data.json();
+      })
+      .then(response => {
+        console.log('response', response);
+        let coord = {
+          latitude: response.location.lat,
+          longitude: response.location.longitude
+        };
+        return coord;
+      })
+      .catch(err => {
+        console.log('fetch geolocation error', err);
+      });
   },
-  // const geolocationReq = 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCq_RyPHWu6hZMFpMeYF4PtrVuDchYDhbg';
 
   getPosition: function () {
     return new Promise((resolve, reject) => {
@@ -59,39 +73,14 @@ const weatherApp = {
     });
   },
 
-  generateApiAddress: function (latitude, longitude) {
+  generateApiAddress: function ({latitude, longitude}) {
     const apiKey = '0b0f37359b3ff36d';
     return `https://api.wunderground.com/api/${apiKey}/conditions/astronomy/q/${latitude},${longitude}.json`;
   },
 
-  // using $.getJSON callback
-  // getWeather: function (address) {
-  //   $.getJSON(address, (json) => {
-  //       this.info.Fahrenheit = json.current_observation.temp_f;
-  //       this.info.Celsius = json.current_observation.temp_c;
-  //       this.info.weather = json.current_observation.weather.toLowerCase();
-  //       this.info.city = json.current_observation.display_location.city;
-  //       this.getTimeOfDay(json);
-  //       this.weatherIcon();
-  //       this.displayWeather();
-  //   });
-  // },
-
-  // using fetch promise
   getWeather: function (address) {
-    fetch(address, {method: 'get'})
-      .then(response => {
-        return response.json();
-      })
-      .then((data) => {
-        this.info.Fahrenheit = data.current_observation.temp_f;
-        this.info.Celsius = data.current_observation.temp_c;
-        this.info.weather = data.current_observation.weather.toLowerCase();
-        this.info.city = data.current_observation.display_location.city;
-        this.getTimeOfDay(data);
-        this.weatherIcon();
-        this.displayWeather();
-      })
+    return fetch(address, {method: 'get'})
+      .then(response => response.json())
       .catch(err => {
         console.log('fetch error', err);
       });
