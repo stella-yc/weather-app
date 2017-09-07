@@ -72,7 +72,12 @@ const weatherApp = {
   },
 
   setDog: function (type) {
-    $('.icon').html(dogs[type].url);
+    let $img = $( '<img />' ).attr('src', dogs[type].url);
+    $img.onload = function(){
+      $img.fadeIn('slow');
+    };
+    $img.css.display = 'none';
+    $('.icon').append($img);
     $('.img-attribution').html(dogs[type].attribution);
   },
 
@@ -97,7 +102,7 @@ const weatherApp = {
     this.info.degreeUnit = 'Fahrenheit';
     this.tempButton();
     $('#loading-text').hide();   //Hide initial loading text
-    $('.weather').show();    //Show weather information
+    $('.weather').fadeIn('slow');    //Show weather information
   },
 
   tempButton: function () {
