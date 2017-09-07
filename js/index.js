@@ -10,69 +10,28 @@ const weatherApp = {
   },
 
   initialize: function () {
-    if (!navigator.geolocation) {
-      let msg = "Sorry, looks like your browser doesn't support geolocation";
-      $('.coordinates').html(msg);
-    } else {
-      this.getGeolocation()
-        .then((coords) => {
-          const address = this.generateApiAddress(coords);
-          return this.getWeather(address);
-        })
-        .then(data => {
-          this.info.Fahrenheit = data.current_observation.temp_f;
-          this.info.Celsius = data.current_observation.temp_c;
-          this.info.weather = data.current_observation.weather.toLowerCase();
-          this.info.city = data.current_observation.display_location.city;
-          this.getTimeOfDay(data);
-          this.weatherIcon();
-          this.displayWeather();
-        })
-        .catch(console.error);
-    }
+    this.getGeolocation()
+      .then(coords => this.getWeather(this.generateApiAddress(coords)))
+      .then(data => {
+        this.setData(data);
+        this.weatherDog();
+        this.displayWeather();
+      })
+      .catch(console.error);
   },
 
-  // getLocation: function () {
-  //   const location = { latitude: 40.4477468, longitude: -79.9483855 };
-  //   return location;
-  // },
-
   getGeolocation: function () {
-  const googleApi = 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCq_RyPHWu6hZMFpMeYF4PtrVuDchYDhbg';
-    return fetch(googleApi, {method: 'post'})
-      .then(data => {
-        console.log(data);
-        return data.json();
-      })
+    const googleApi = 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCq_RyPHWu6hZMFpMeYF4PtrVuDchYDhbg';
+    return fetch(googleApi, { method: 'post' })
+      .then(data => data.json())
       .then(response => {
-        console.log('response', response);
-        let coord = {
+        const coord = {
           latitude: response.location.lat,
           longitude: response.location.lng
         };
-        console.log('coord', coord);
         return coord;
-
       })
-      .catch(err => {
-        console.log('fetch geolocation error', err);
-      });
-  },
-
-  getPosition: function () {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition((position) => {
-        let coord = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        };
-        resolve(coord);
-      }, (err) => {
-        console.log('geolocation not working');
-        reject(err);
-      },
-      {timeout: 30000, enableHighAccuracy: true, maximumAge: 75000});
-    });
+      .catch(err => console.log('fetch geolocation error', err));
   },
 
   generateApiAddress: function ({latitude, longitude}) {
@@ -81,34 +40,35 @@ const weatherApp = {
   },
 
   getWeather: function (address) {
-    return fetch(address, {method: 'get'})
+    return fetch(address, { method: 'get' })
       .then(response => response.json())
-      .catch(err => {
-        console.log('fetch error', err);
-      });
+      .catch(err => console.log('fetch error', err));
+  },
+
+  setData: function (data) {
+    this.info.Fahrenheit = data.current_observation.temp_f;
+    this.info.Celsius = data.current_observation.temp_c;
+    this.info.weather = data.current_observation.weather.toLowerCase();
+    this.info.city = data.current_observation.display_location.city;
+    this.info.timeOfDay = this.getTimeOfDay(data);
   },
 
   getTimeOfDay: function (data) {
-    let {sunriseH, sunriseM} = data.sun_phase.sunrise;
-    let {sunsetH, sunsetM} = data.sun_phase.sunset;
-    let {currentH, currentM} = data.moon_phase.current_time;
-
-    let sunriseMinutes = this.hoursToMinutes(sunriseH, sunriseM);
-    let sunsetMinutes = this.hoursToMinutes(sunsetH, sunsetM);
-    let currentMin = this.hoursToMinutes(currentH, currentM);
-
-    if (currentMin >= sunriseMinutes && currentMin <= sunsetMinutes) {
-      this.info.timeOfDay = 'day';
-    } else {
-      this.info.timeOfDay = 'night';
-    }
+    // convert from {hour: 5, minute: 45} to (5 * 60 + 45) minutes
+    // check what if its day or night by comparing minutes
+    let sunrise = this.hoursToMinutes(data.sun_phase.sunrise);
+    let sunset = this.hoursToMinutes(data.sun_phase.sunset);
+    let current = this.hoursToMinutes(data.moon_phase.current_time);
+    return current >= sunrise && current <= sunset ? 'day' : 'night';
   },
 
-  hoursToMinutes: function (hours, minutes) {
-    return hours * 60 + minutes;
+  hoursToMinutes: function (time) {
+    let hour = parseInt(time.hour, 10);
+    let minute = parseInt(time.minute, 10);
+    return hour * 60 + minute;
   },
 
-  weatherIcon: function () {
+  weatherDog: function () {
     this.setDog(this.dogType(this.info.weather));
   },
 
