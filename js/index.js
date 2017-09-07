@@ -93,12 +93,12 @@ const weatherApp = {
 
   displayWeather: function () {
     $('.temp').html(this.info.Fahrenheit + '&deg;F');
-    $('.main').html(this.info.weather);
+    $('.description').html(this.info.weather);
     $('.city').html(this.info.city);
     this.info.degreeUnit = 'Fahrenheit';
     this.tempButton();
     $('#loading-text').hide();   //Hide initial loading text
-    $('.weatherdiv').show();    //Show weather information
+    $('.weather').show();    //Show weather information
   },
 
   tempButton: function () {

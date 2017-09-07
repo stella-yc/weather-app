@@ -1,89 +1,116 @@
-/* blue: #8099FF
-	yellow: #FFE680
+/*
+gray: #777777
+blue: #8099FF
+yellow: #FFE680
 */
-* {
-	color: #777777;
-	font-family: 'Comfortaa', cursive;
-}
-body {
-  min-height: 96vh;
-  display: flex;
-  flex-direction: column;
-	background-color: #FFE680;
+
+html, body {
+  color: #777777;
+  background-color: #FFE680;
+  font-family: 'Comfortaa', cursive;
+  margin: 0;
 }
 a {
-	color: #8099FF;
-	text-decoration: none;
-}
-.container {
-	background-color: #fff;
-	padding-bottom: 1em;
-}
-.temp {
-	font-size: 2em;
-	margin-top: 0.7em;
-}
-.main {
-	font-size: 1.8em;
-	margin-top: .5em;
-}
-.city {
-	font-size: 1.4em;
-	color: #8099FF;
-	margin: 1em 0;
+  color: #8099FF;
+  text-decoration: none;
 }
 .container-main {
-	max-width: 80%;
-	margin: 0 auto;
+  background-color: #FFE680;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
 }
-.container {
-	flex: 1;
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-  align-items: center;
+.container-app {
+  width: 90%;
+  background-color: #fff;
+  margin: 1em auto;
+  padding: 1em 0;
+  text-align: center;
 }
-footer{
-	text-align: center;
-	margin-top: 1em;
+.title {
+  font-size: 2em;
 }
-footer p {
-	margin: 0;
-	padding: 2px;
-	font-size: .8rem;
+.weather {
+  width: 100%;
+  display: none;
+}
+.city {
+  font-size: 1.5em;
+  color: #8099FF;
+  margin: 1em 0;
+}
+.temp {
+  font-size: 1.5em;
+  margin-top: 1em;
+}
+.description {
+  font-size: 1.5em;
+  margin: 0.7em 0;
 }
 .icon {
-	height: 250px;
-	width: 250px;
-	overflow: hidden;
-	border-radius: 50%;
-	position: relative;
+  height: 70vmin;
+  width: 70vmin;
+  overflow: hidden;
+  border-radius: 50%;
+  position: relative;
+  margin: 0 auto;
 }
-
-.icon img {
-	height: 250px;
-	width: auto;
-	position: absolute;
-	left: -80px;
+.icon > img {
+  height: 70vmin;
+  width: auto;
+  position: absolute;
+  left: -20vmin;
 }
-
+ @media (min-width: 500px) {
+  .icon {
+    height: 50vmin;
+    width: 50vmin;
+  }
+  .icon > img {
+    height: 50vmin;
+    left: -10vmin;
+  }
+}
+  @media (min-width: 700px) {
+  .container-app {
+    width: 500px;
+  }
+  .icon {
+    width: 300px;
+    height: 300px;
+  }
+  .icon > img {
+    height: 300px;
+    left: -50px;
+  }
+}
 button {
-	color: #fff;
-	font-size: 1em;
-	padding: 0.5em;
-	border: 0px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius:6px;
-	margin-left: .5rem;
-	background-color: #8099FF;
-	margin-top: 1.3rem;
-	margin-bottom: 1.3rem;
+  background-color: #8099FF;
+  color: #fff;
+  font-size: 1.3em;
+  padding: 0.5em;
+  margin: 0 0.5em;
+  border: 0;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius:6px;
 }
 button:hover {
   background-color:#FFE680;
-	cursor: pointer; cursor: hand;
+  cursor: pointer; cursor: hand;
 }
-.weatherdiv {
-	display: none;
+footer {
+  text-align: center;
+  margin-top: 1em;
+  padding: 0 0.5em;
 }
+footer > p {
+  margin: 0 0.5em;
+  font-size: 1em;
+}
+.img-attribution {
+  margin: 0 0.5em;
+  font-size: 1em;
+}
+
+
