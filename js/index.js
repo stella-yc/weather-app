@@ -39,7 +39,7 @@ const weatherApp = {
 
   getGeolocation: function () {
   const googleApi = 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCq_RyPHWu6hZMFpMeYF4PtrVuDchYDhbg';
-    return fetch(googleApi, {method: 'get'})
+    return fetch(googleApi, {method: 'post'})
       .then(data => {
         console.log(data);
         return data.json();
@@ -48,9 +48,11 @@ const weatherApp = {
         console.log('response', response);
         let coord = {
           latitude: response.location.lat,
-          longitude: response.location.longitude
+          longitude: response.location.lng
         };
+        console.log('coord', coord);
         return coord;
+
       })
       .catch(err => {
         console.log('fetch geolocation error', err);
