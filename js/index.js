@@ -1,3 +1,5 @@
+/* global dogs reference */
+
 const weatherApp = {
   info: {
     Fahrenheit: null,
@@ -10,11 +12,14 @@ const weatherApp = {
 
   initialize: function () {
     this.getGeolocation()
-      .then(coords => this.getWeather(this.generateApiAddress(coords)))
+      .then(coords => {
+        return this.getWeather(this.generateApiAddress(coords));
+      })
       .then(data => {
         this.setData(data);
-        this.weatherDog();
-        this.displayWeather();
+        this.addToDom();
+        this.tempButton();
+        this.revealWeatherPanel();
       })
       .catch(console.error);
   },
@@ -47,6 +52,7 @@ const weatherApp = {
   setData: function (data) {
     this.info.Fahrenheit = data.current_observation.temp_f;
     this.info.Celsius = data.current_observation.temp_c;
+    this.info.degreeUnit = 'Fahrenheit';
     this.info.weather = data.current_observation.weather.toLowerCase();
     this.info.city = data.current_observation.display_location.city;
     this.info.timeOfDay = this.getTimeOfDay(data);
@@ -67,7 +73,10 @@ const weatherApp = {
     return hour * 60 + minute;
   },
 
-  weatherDog: function () {
+  addToDom: function () {
+    $('.temp').html(this.info.Fahrenheit + '&deg;F');
+    $('.description').html(this.info.weather);
+    $('.city').html(this.info.city);
     this.setDog(this.dogType(this.info.weather));
   },
 
@@ -95,18 +104,6 @@ const weatherApp = {
     return 'default';
   },
 
-  displayWeather: function () {
-    $('.temp').html(this.info.Fahrenheit + '&deg;F');
-    $('.description').html(this.info.weather);
-    $('.city').html(this.info.city);
-    this.info.degreeUnit = 'Fahrenheit';
-    this.tempButton();
-    $('.loading-text').hide();   //Hide initial loading text
-    $('.weather')
-      .css({opacity: 0.0, visibility: 'visible'})
-      .animate({opacity: 1.0});
-  },
-
   tempButton: function () {
     $('.temp-button').click(this.toggleDegree.bind(this));
   },
@@ -118,6 +115,13 @@ const weatherApp = {
     $('.temp').html(`${this.info[displayUnit]}&deg;${initial}`);
     $('.temp-button').html(prevUnit);
     this.info.degreeUnit = displayUnit;
+  },
+
+  revealWeatherPanel () {
+    $('.loading-text').hide();   //Hide initial loading text
+    $('.weather')
+      .css({opacity: 0.0, visibility: 'visible'})
+      .animate({opacity: 1.0});
   }
 };
 
