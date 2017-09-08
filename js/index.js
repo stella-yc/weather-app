@@ -1,4 +1,4 @@
-/* global dogs reference */
+/* global dogs */
 
 const weatherApp = {
   info: {
@@ -81,13 +81,13 @@ const weatherApp = {
   },
 
   setDog: function (type) {
-    let $img = $( '<img />' ).attr('src', dogs[type].url);
+    let $img = $( '<img />' ).attr('src', dogs.getImage(type));
     $img.onload = function(){
       $img.fadeIn('slow');
     };
     $img.css.display = 'none';
     $('.icon').append($img);
-    $('.img-attribution').html(dogs[type].attribution);
+    $('.img-attribution').html(dogs.getAttrib(type));
   },
 
   dogType: function (weather) {
