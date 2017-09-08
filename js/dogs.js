@@ -19,5 +19,5 @@ const dogs = {
 		attribution: '<p>Image by Pets Adviser from Brooklyn, USA (2014 Westminster Kennel Club Dog Show) [<a href="http://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>], <a href="https://commons.wikimedia.org/wiki/File%3A2014_Westminster_Kennel_Club_Dog_Show_(12451551343).jpg">via Wikimedia Commons</a></p>'},
 	default: {
 		url: 'img/default.jpg',
-		attribution: '<p>By Bev Sykes from Davis, CA, USA (Flickr) [<a href="http://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>], <a href="https://commons.wikimedia.org/wiki/File%3ASleeping_Pups.jpg">via Wikimedia Commons</a></p>'}
+		attribution: '<p>Image by Bev Sykes from Davis, CA, USA (Flickr) [<a href="http://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>], <a href="https://commons.wikimedia.org/wiki/File%3ASleeping_Pups.jpg">via Wikimedia Commons</a></p>'}
 	};
