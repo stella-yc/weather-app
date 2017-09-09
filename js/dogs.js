@@ -29,8 +29,8 @@ const dogs = (function () {
     return dogList[type].attribution;
   }
   const api = {
-    getImage: getImage,
-    getAttrib: getAttrib
+    getImage,
+    getAttrib
   };
   return api;
 })();
