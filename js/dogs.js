@@ -28,9 +28,13 @@ const dogs = (function () {
   function getAttrib (type) {
     return dogList[type].attribution;
   }
+  function getTypes () {
+    return Object.keys(dogList);
+  }
   const api = {
     getImage,
-    getAttrib
+    getAttrib,
+    getTypes
   };
   return api;
 })();

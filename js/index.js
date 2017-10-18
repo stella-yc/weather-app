@@ -91,7 +91,7 @@ const weatherApp = {
   },
 
   dogType: function (weather) {
-    const types = Object.keys(dogs);
+    const types = dogs.getTypes();
     for (let i = 0; i < types.length; i++) {
       let type = types[i];
       if (weather.includes(type)) {
