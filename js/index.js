@@ -19,7 +19,6 @@ const weatherApp = {
         this.setData(data);
         this.addToDom();
         this.tempButton();
-        this.revealWeatherPanel();
       })
       .catch(console.error);
   },
@@ -81,11 +80,12 @@ const weatherApp = {
   },
 
   setDog: function (type) {
-    let $img = $( '<img />' ).attr('src', dogs.getImage(type));
-    $img.onload = function(){
-      $img.fadeIn('slow');
-    };
-    $img.css.display = 'none';
+    let self = this;
+    let $img = $( '<img />' )
+      .load(function() {
+        self.revealWeatherPanel();  // When the image has loaded, show Weather
+      })
+      .attr('src', dogs.getImage(type));
     $('.icon').append($img);
     $('.img-attribution').html(dogs.getAttrib(type));
   },
